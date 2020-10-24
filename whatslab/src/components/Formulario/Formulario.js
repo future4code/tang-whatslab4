@@ -32,6 +32,7 @@ export default class Formulario extends React.Component {
                 placeholder="Mensagem"
                 value={this.props.valorMensagem}
                 onChange={this.props.onChangeMensagem}
+                onKeyPress={this.props.apertouEnter}
                 />
 
                 <BotaoEnviar
