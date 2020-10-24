@@ -21,7 +21,8 @@ class App extends React.Component {
     valorUsuario: "",
     valorMensagem: "",
     arrayMensagens: [ {usuario: "David",
-                       mensagem: "teste"
+                       mensagem: "teste",
+                       id:1
                        }
     ]
   }
@@ -40,8 +41,9 @@ class App extends React.Component {
 
   aoEnviar = () => {
     const novaMensagem = {
-      usuario: this.state.valorUsuario,
-      mensagem: this.state.valorMensagem
+      usuario: this.state.valorUsuario + ":",
+      mensagem: this.state.valorMensagem,
+      id: Date.now()
     };
 
     const atualizaArrayMensagens = [novaMensagem, ...this.state.arrayMensagens];
@@ -54,14 +56,33 @@ class App extends React.Component {
 
   }
 
+  apagarMensagem = (mensagem) => {
+    const atualizaArrayMensagens = this.state.arrayMensagens.filter((elemento) => {
+     if(mensagem !== elemento.id) {
+       return mensagem
+     } else if (mensagem === elemento.id) {
+        elemento.usuario = ""; 
+        elemento.mensagem = "Esta mensagem foi apagada.";
+        return mensagem
+     }
+
+    })
+
+    this.setState({arrayMensagens: atualizaArrayMensagens})
+  }
+
   render() {
+    
 
     const listaDeMensagens = this.state.arrayMensagens.map((elemento,index) => {
-        return(
+        
+      return(
           <Mensagem
-          key={index}
+          key={elemento.id}
           usuario={elemento.usuario}
-          mensagem={elemento.mensagem}></Mensagem>
+          mensagem={elemento.mensagem}
+          apagar={() => this.apagarMensagem(elemento.id)}
+          ></Mensagem>
         );
     });
 

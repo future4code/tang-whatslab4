@@ -8,8 +8,8 @@ const DivMensagem = styled.div `
 export default class Mensagem extends React.Component {
     render() {
         return (
-            <DivMensagem>
-           <p><b>{this.props.usuario}: </b> {this.props.mensagem}</p> 
+            <DivMensagem onClick={this.props.apagar}>
+           <p><b>{this.props.usuario} </b> {this.props.mensagem}</p> 
             </DivMensagem>
         )
     }
