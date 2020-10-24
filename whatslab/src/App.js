@@ -2,6 +2,7 @@ import React from 'react'
 import styled from 'styled-components';
 import Formulario from "./components/Formulario/Formulario.js";
 import Mensagem from "./components/Mensagem/Mensagem.js"
+import MensagemEu from "./components/MensagemEu/MensagemEu.js"
 
 const DivMae = styled.div `
   display:flex;
@@ -52,9 +53,14 @@ class App extends React.Component {
       arrayMensagens: atualizaArrayMensagens,
       valorMensagem: ""
     })
-
-
   }
+
+  funcaoEnter = (event) => {
+    if (event.code === "Enter") {
+      this.aoEnviar()
+    }
+  }
+
 
   apagarMensagem = (mensagem) => {
     const atualizaArrayMensagens = this.state.arrayMensagens.filter((elemento) => {
@@ -75,7 +81,17 @@ class App extends React.Component {
     
 
     const listaDeMensagens = this.state.arrayMensagens.map((elemento,index) => {
-        
+      if (elemento.usuario === "Eu:") {
+        console.log("eu")
+        return (
+          <MensagemEu
+            key={elemento.id}
+            usuario={""}
+            mensagem={elemento.mensagem}
+            apagar={() => this.apagarMensagem(elemento.id)}
+            ></MensagemEu>
+        )
+      } else {
       return(
           <Mensagem
           key={elemento.id}
@@ -84,6 +100,7 @@ class App extends React.Component {
           apagar={() => this.apagarMensagem(elemento.id)}
           ></Mensagem>
         );
+      }
     });
 
     return (
@@ -95,6 +112,7 @@ class App extends React.Component {
             valorMensagem={this.state.valorMensagem}
             onChangeMensagem={this.onChangeMensagem}
             onClickBotao={this.aoEnviar}
+            apertouEnter={this.funcaoEnter}
             />
             {listaDeMensagens}
           </AppDiv>
